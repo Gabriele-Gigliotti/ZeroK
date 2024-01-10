@@ -10,6 +10,7 @@ public class MapObjectSerializer extends JsonSerializer<MapObject> {
     @Override
     public void serialize(MapObject value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
+        gen.writeStringField("mass",Double.toString(value.getMass()));
         gen.writeStringField("x", Double.toString(value.getCoords().getX()));
         gen.writeStringField("y", Double.toString(value.getCoords().getY()));
         gen.writeEndObject();

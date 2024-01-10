@@ -33,6 +33,13 @@ public class NeonLine {
         shadow.setRadius(STR_WIDTH);
         shadow.setSpread(0.3);
 
+        // color otherwise looks too full
+        if(color == Color.WHITE || color == Color.YELLOW){
+            line.setStrokeWidth((STR_WIDTH)/2);
+            shadow.setRadius((STR_WIDTH)*2);
+            shadow.setSpread(0.6);
+        }
+
         line.setEffect(shadow);
         return line;
     }

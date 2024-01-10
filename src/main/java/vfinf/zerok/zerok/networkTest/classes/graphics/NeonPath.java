@@ -18,18 +18,33 @@ public class NeonPath implements Serializable {
     public NeonPath(String pathData, double x, double y, double rotation ,Color color) {
         this.pathData = pathData;
 
-        halation = createShadows(pathData, rotation, color);
-        highlight = createLines(pathData, rotation, color);
+        halation = createShadows(pathData, rotation, color, 1);
+        highlight = createLines(pathData, rotation, color, 1);
 
         halation.setLayoutX(x); halation.setLayoutY(y);
         highlight.setLayoutX(x); highlight.setLayoutY(y);
     }
 
-    private SVGPath createShadows(String pathData, double rotation, Color color){
+    /**
+     * For giving the path an equal size
+     */
+    public NeonPath(String pathData, double x, double y, double rotation , double size, Color color) {
+        this.pathData = pathData;
+
+        halation = createShadows(pathData, rotation, color, size);
+        highlight = createLines(pathData, rotation, color, size);
+
+        halation.setLayoutX(x); halation.setLayoutY(y);
+        highlight.setLayoutX(x); highlight.setLayoutY(y);
+    }
+
+    private SVGPath createShadows(String pathData, double rotation, Color color, double size){
         SVGPath path = new SVGPath();
         path.setContent(pathData);
+        path.setScaleX(size);
+        path.setScaleY(size);
 
-        path.setStrokeWidth(STR_WIDTH);
+        path.setStrokeWidth(STR_WIDTH/size);
         path.setStrokeLineCap(javafx.scene.shape.StrokeLineCap.ROUND);
         path.setStrokeLineJoin(javafx.scene.shape.StrokeLineJoin.ROUND);
         path.setBlendMode(BlendMode.SCREEN);
@@ -44,22 +59,24 @@ public class NeonPath implements Serializable {
 
         // color otherwise looks too full
         if(color == Color.WHITE || color == Color.YELLOW){
-            path.setStrokeWidth(STR_WIDTH/2);
-            shadow.setRadius(STR_WIDTH*2);
+            path.setStrokeWidth((STR_WIDTH/size)/2);
+            shadow.setRadius((STR_WIDTH/size)*2);
             shadow.setSpread(0.6);
         }
 
         path.setEffect(shadow);
         return path;
     }
-    private SVGPath createLines(String pathData, double rotation, Color color){
+    private SVGPath createLines(String pathData, double rotation, Color color, double size){
         if(color == Color.WHITE || color == Color.YELLOW) return new SVGPath();
 
         SVGPath path = new SVGPath();
         path.setContent(pathData);
+        path.setScaleX(size);
+        path.setScaleY(size);
 
         path.setOpacity(0.90);
-        path.setStrokeWidth(STR_WIDTH/2.5);
+        path.setStrokeWidth((STR_WIDTH/2.5)/size);
         path.setStroke(color.brighter());
         path.setStrokeLineCap(javafx.scene.shape.StrokeLineCap.ROUND);
         path.setStrokeLineJoin(javafx.scene.shape.StrokeLineJoin.ROUND);
@@ -67,8 +84,17 @@ public class NeonPath implements Serializable {
         path.setFill(Color.TRANSPARENT);
         path.setRotate(rotation);
 
-
         return path;
+    }
+
+    public void setCoords(double x, double y){
+        halation.setLayoutX(x); halation.setLayoutY(y);
+        highlight.setLayoutX(x); highlight.setLayoutY(y);
+    }
+
+    public void setRotation(double rotation){
+        halation.setRotate(rotation);
+        highlight.setRotate(rotation);
     }
 
     public SVGPath getHalation() {
