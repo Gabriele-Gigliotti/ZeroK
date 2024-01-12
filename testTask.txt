@@ -1,0 +1,16 @@
+Missione Finale;
+Primo ramo ricerca;
+task che aiutano il ramo;
+1;
+2;
+altre;
+Secondo ramo ricerca;
+task 1;
+2;
+numero fisso;
+
+oppure
+
+Missione finale;
+rami ricerca;
+task casuali;
