@@ -25,22 +25,11 @@ import java.net.Socket;
 import java.util.Map;
 import java.util.Random;
 
-/*
-Socket connessione=null;
-Random r= new Random();
 
-try{
-    ServerSocket serverSocket=new ServerSocket(3333);
-    while (true) {
-        System.out.println("In attesa di connessione...");
-        connessione=serverSocket.accept();
-        System.out.println("Connessione accettata da "+connessione);
-        }
-}catch (IOException e){
-    e.printStackTrace();
-}
-*/
 public class ServerApplication extends Application {
+    BufferedReader reader;
+    PrintWriter writer;
+
     @Override
     public void start(Stage stage) throws IOException {
         Socket connessione=null;
