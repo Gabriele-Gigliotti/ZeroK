@@ -1,11 +1,9 @@
-package vfinf.zerok.zerok.networkTest.classes.graphics;
+package vfinf.zerok.zerok.classes.graphics;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
-import vfinf.zerok.zerok.networkTest.classes.MapObjectSerializer;
 
 import java.io.Serializable;
 
@@ -18,8 +16,8 @@ public class NeonPath implements Serializable {
     public NeonPath(String pathData, double x, double y, double rotation ,Color color) {
         this.pathData = pathData;
 
-        halation = createShadows(pathData, rotation, color, 1);
-        highlight = createLines(pathData, rotation, color, 1);
+        halation = createShadow(pathData, rotation, color, 1);
+        highlight = createLine(pathData, rotation, color, 1);
 
         halation.setLayoutX(x); halation.setLayoutY(y);
         highlight.setLayoutX(x); highlight.setLayoutY(y);
@@ -31,14 +29,14 @@ public class NeonPath implements Serializable {
     public NeonPath(String pathData, double x, double y, double rotation , double size, Color color) {
         this.pathData = pathData;
 
-        halation = createShadows(pathData, rotation, color, size);
-        highlight = createLines(pathData, rotation, color, size);
+        halation = createShadow(pathData, rotation, color, size);
+        highlight = createLine(pathData, rotation, color, size);
 
         halation.setLayoutX(x); halation.setLayoutY(y);
         highlight.setLayoutX(x); highlight.setLayoutY(y);
     }
 
-    private SVGPath createShadows(String pathData, double rotation, Color color, double size){
+    private SVGPath createShadow(String pathData, double rotation, Color color, double size){
         SVGPath path = new SVGPath();
         path.setContent(pathData);
         path.setScaleX(size);
@@ -67,7 +65,7 @@ public class NeonPath implements Serializable {
         path.setEffect(shadow);
         return path;
     }
-    private SVGPath createLines(String pathData, double rotation, Color color, double size){
+    private SVGPath createLine(String pathData, double rotation, Color color, double size){
         if(color == Color.WHITE || color == Color.YELLOW) return new SVGPath();
 
         SVGPath path = new SVGPath();
@@ -95,6 +93,9 @@ public class NeonPath implements Serializable {
     public void setRotation(double rotation){
         halation.setRotate(rotation);
         highlight.setRotate(rotation);
+    }
+    public double getRotation(){
+        return halation.getRotate();
     }
 
     public SVGPath getHalation() {

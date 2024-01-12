@@ -1,4 +1,4 @@
-/*package vfinf.zerok.zerok.networkTest.classes;
+/*package vfinf.zerok.zerok.classes;
 
 public class Gravity {
     private static final double EARTH_GRAVITY = 6.67430e-11;

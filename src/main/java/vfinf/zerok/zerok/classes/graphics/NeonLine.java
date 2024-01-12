@@ -1,4 +1,4 @@
-package vfinf.zerok.zerok.networkTest.classes.graphics;
+package vfinf.zerok.zerok.classes.graphics;
 
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.DropShadow;

@@ -1,6 +1,4 @@
-package vfinf.zerok.zerok.networkTest.classes;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+package vfinf.zerok.zerok.classes;
 
 import java.util.HashMap;
 import java.util.Map;

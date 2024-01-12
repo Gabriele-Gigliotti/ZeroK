@@ -10,8 +10,12 @@ module vfinf.zerok.zerok {
     opens vfinf.zerok.zerok to javafx.fxml;
     exports vfinf.zerok.zerok;
 
-    exports vfinf.zerok.zerok.networkTest.classes;
-    opens vfinf.zerok.zerok.networkTest.classes to com.fasterxml.jackson.databind;
-    exports vfinf.zerok.zerok.networkTest.classes.graphics;
-    opens vfinf.zerok.zerok.networkTest.classes.graphics to com.fasterxml.jackson.databind;
+    exports vfinf.zerok.zerok.classes;
+    opens vfinf.zerok.zerok.classes to com.fasterxml.jackson.databind;
+    exports vfinf.zerok.zerok.classes.graphics;
+    opens vfinf.zerok.zerok.classes.graphics to com.fasterxml.jackson.databind;
+    exports vfinf.zerok.zerok.classes.serializers;
+    opens vfinf.zerok.zerok.classes.serializers to com.fasterxml.jackson.databind;
+    exports vfinf.zerok.zerok.classes.elements;
+    opens vfinf.zerok.zerok.classes.elements to com.fasterxml.jackson.databind;
 }
