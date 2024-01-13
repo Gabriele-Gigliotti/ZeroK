@@ -36,4 +36,13 @@ public class PlanetPosition implements Serializable {
     public void setY(double y) {
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        return "PlanetPosition{" +
+                "rotation=" + rotation +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

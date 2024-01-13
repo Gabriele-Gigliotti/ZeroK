@@ -1,38 +1,32 @@
 package vfinf.zerok.zerok;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import vfinf.zerok.zerok.classes.Coords;
 import vfinf.zerok.zerok.classes.TestUtils;
 import vfinf.zerok.zerok.classes.elements.MapObject;
 import vfinf.zerok.zerok.classes.elements.Planet;
-import vfinf.zerok.zerok.classes.graphics.NeonLine;
-import vfinf.zerok.zerok.classes.graphics.NeonObject;
+import vfinf.zerok.zerok.classes.elements.PlanetPosition;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Map;
-import java.util.Random;
+import java.util.Arrays;
 
 
 public class ServerApplication extends Application {
-    BufferedReader reader;
-    PrintWriter writer;
+    ObjectInputStream reader;
+    ObjectOutputStream writer;
 
     @Override
     public void start(Stage stage) throws IOException {
-        Socket connessione=null;
+        Socket socket =null;
         boolean ready = false;
 
         Planet earth = new Planet(new Coords(360, 360),10,"Terra");
@@ -41,18 +35,19 @@ public class ServerApplication extends Application {
 
         try{
             ServerSocket serverSocket=new ServerSocket(8271);
+
             while (!ready) {
                 TestUtils.printR("In attesa di connessione...");
-                connessione=serverSocket.accept();
-                TestUtils.printR("Connessione accettata da "+connessione);
+                 socket=serverSocket.accept();
+                TestUtils.printR("Connessione accettata da "+socket);
+                writer = new ObjectOutputStream(socket.getOutputStream());
+                reader = new ObjectInputStream(socket.getInputStream());
                 ready = true;
-
-                reader = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
-                writer = new PrintWriter(connessione.getOutputStream(), true);
             }
         }catch (IOException e){
             e.printStackTrace();
         }
+
         animate(earth,moon);
     }
 
@@ -65,7 +60,7 @@ public class ServerApplication extends Application {
         int totalMoves = 100;
         final double[] movesCounter = {0};
 
-        Duration duration = Duration.millis(1024);
+        Duration duration = Duration.millis(1082);
 
         Timeline timeline = new Timeline(new KeyFrame(duration, event -> {
             double cnt = movesCounter[0];
@@ -81,7 +76,11 @@ public class ServerApplication extends Application {
 
                 //movesCounter[0] = cnt+ ((double)80/500000);
                 movesCounter[0] = cnt+ ((double)80/10000);
-                sendMap(new MapObject[]{earth,moon});
+                try {
+                    sendMap(new MapObject[]{earth,moon});
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             } else {
                 // Stop the timeline when the desired number of moves is reached
                 try {
@@ -97,15 +96,23 @@ public class ServerApplication extends Application {
         timeline.play();
     }
 
-    private void sendMap(MapObject[] map) {
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonstring = null;
-        try {
-            jsonstring = mapper.writeValueAsString(map);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+    private void sendMap(MapObject[] map) throws IOException {
+        PlanetPosition[] toSend = new PlanetPosition[map.length];
+        for (int i=0; i<toSend.length; i++){
+            toSend[i] = new PlanetPosition(
+                    map[i].getRenderedPath().getRotation(),
+                    map[i].getCoords().getX(),
+                    map[i].getCoords().getY()
+            );
         }
 
-        writer.println("{\"pos\":"+jsonstring+'}');
+        TestUtils.printR(Arrays.toString(toSend));
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream = writer;
+        objectOutputStream.writeObject(toSend);
+        objectOutputStream.flush();
+
+        //byte[] serializedObject = byteArrayOutputStream.toByteArray();
+        //writer.write(serializedObject);
     }
 }

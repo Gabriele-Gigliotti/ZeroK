@@ -15,6 +15,11 @@ public abstract class MapObject extends NeonObject {
         this.name = name;
     }
 
+    public void setPathCoords(Coords coords){
+        setCoords(coords);
+        renderedPath.setCoords(coords.getX(), coords.getY());
+    }
+
     public Coords getCoords() {
         return super.getCoords();
     }
@@ -30,4 +35,6 @@ public abstract class MapObject extends NeonObject {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }

@@ -36,13 +36,20 @@ public class Planet extends MapObject {
         renderedPath.setCoords(coords.getX()-offsetX, coords.getY()-offsetY);
     }
 
-    public void setRotation(double rotation){
-        getRenderedPath().setRotation(rotation);
-    }
     public double getMass() {
         return mass;
     }
     public void setMass(double mass) {
         this.mass = mass;
+    }
+
+    @Override
+    public String toString() {
+        return "Planet{" +
+                "mass=" + mass +
+                ", name='" + name + '\'' +
+                ", coords=" + coords +
+                ", rotation="+ getRotation() +
+                '}';
     }
 }

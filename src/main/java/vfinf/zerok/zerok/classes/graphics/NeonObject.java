@@ -52,5 +52,8 @@ public abstract class NeonObject {
     public void setRenderedPath(NeonPath renderedPath) {
         this.renderedPath = renderedPath;
     }
-
+    public void setRotation(double rotation){
+        getRenderedPath().setRotation(rotation);
+    }
+    public double getRotation(){return  getRenderedPath().getRotation();}
 }
