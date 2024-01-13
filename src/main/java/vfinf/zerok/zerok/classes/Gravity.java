@@ -25,6 +25,10 @@ public class Gravity {
    }
 
    public void updateRocketPosition (MapObject rocket){
+       double gravityForce = calcoloGravita(rocket);
+
+       double accelerazioneX = gravityForce * (planet.getCoords().getX() - rocket.getCoords().getX()/rocket.getMass();
+       double accelerazioneY = gravityForce * (planet.getCoords(9
        rocket.setVelocity(rocket.getVelocity() + (calcoloGravita(rocket)/rocket.getMass());
        rocket.setCoords(rocket.getCoords() + rocket.getVelocity();
    }
